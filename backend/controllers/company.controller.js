@@ -46,6 +46,10 @@ export const getCompany = async (req, res) => {
             })
 
         }
+        return res.status(200).json({
+            companies,
+            success:true
+        })
 
     } catch (error) {
         console.log(error);
@@ -73,24 +77,42 @@ export const getCompanyById = async (req, res) => {
 }
 
 export const updateCompany = async (req, res) => {
-    try {
-        const { name, description, website, location } = req.body;
-        const file = req.file;
-        const updateData = { name, description, website, location };
-        const company = await Company.findByIdAndUpdate(req.params.id, updateCompany, { new: true });
-        if (!company) {
-            return res.status(404).json({
-                message: "Company not found",
-                success: false
-            })
+  try {
+    const { id } = req.params;
+    const { name, description, website, location } = req.body;
+    const file = req.file;
 
-        }
-        return res.status(200).json({
-            message: "Company information updated",
+    const updateData = {};
 
-            success: true
-        })
-    } catch (error) {
-        console.log(error);
+    if (name) updateData.name = name;
+    if (description) updateData.description = description;
+    if (website) updateData.website = website;
+    if (location) updateData.location = location;
+    if (file) updateData.logo = file.path; // example field
+
+    console.log("UPDATING COMPANY:", id, updateData);
+
+    const company = await Company.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!company) {
+      return res.status(404).json({ message: "Company not found" });
     }
-}
+
+    return res.status(200).json({
+      message: "Company updated successfully",
+      company,
+    });
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "Something went wrong while updating company" });
+  }
+};
