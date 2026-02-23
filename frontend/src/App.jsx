@@ -1,19 +1,32 @@
 
-import Navbar from './components/ui/shared/Navbar'
+import { createBrowserRouter } from 'react-router-dom';
+import Navbar from './components/ui/shared/Navbar';
+import Login from './components/ui/auth/login';
+import Signup from './components/ui/auth/signup';
+import Home from './components/ui/Home';
+import { RouterProvider } from "react-router-dom";
+
+const appRouter = createBrowserRouter([
+  {
+    path:'/',
+    element:<Home/>
+  },
+  {
+    path:'/login',
+    element:<Login/>
+  },{
+    path:'/signup', 
+    element:<Signup/>
+  }
+])
 
 function App() {
 
 
   return (
-    <>
-<div className="fixed top-0 left-0 right-0 z-50 bg-white ">
- <Navbar />
-</div>
- 
-
-      
-
-    </>
+     <div>
+      <RouterProvider router={appRouter} />
+    </div>
   )
 }
 
