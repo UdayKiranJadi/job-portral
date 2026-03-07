@@ -2,9 +2,10 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
+    console.log("BODY =>", req.body);
     try {
-        const { fullname, email, phoneNumber, password, role } = req.body;
-        if (!fullname || !email || !phoneNumber || !password || !role) {
+        const { fullName, email, phoneNumber, password, role } = req.body;
+        if (!fullName || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
                 message: "something is missing",
                 success: false
@@ -20,7 +21,7 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await User.create({
-            fullname, email, phoneNumber, password: hashedPassword, role
+            fullName, email, phoneNumber, password: hashedPassword, role
         });
         return res.status(201).json({
             message: "Account created Successfully",
@@ -70,7 +71,7 @@ export const login = async (req, res) => {
         const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
         user = {
             _id: user._id,
-            fullname: user.fullname,
+            fullName: user.fullName,
             email: user.email,
             phoneNumber: user.phoneNumber,
             role: user.role,
@@ -78,7 +79,7 @@ export const login = async (req, res) => {
         }
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
-            message: `welcome back ${user.fullname}`,
+            message: `welcome back ${user.fullName}`,
             user,
             success: true
         })
