@@ -11,7 +11,7 @@ const Home = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       {/* 👇 push all content below the fixed navbar */}
-      <main className="pt-16">
+      <main className="pt-20">
         <HeroSection />
         <CategoryCarousel />
         <LatestJobs />

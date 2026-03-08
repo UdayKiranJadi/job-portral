@@ -6,6 +6,7 @@ import Signup from './components/ui/auth/signup';
 import Home from './components/ui/Home';
 import { RouterProvider } from "react-router-dom";
 import Jobs from './components/ui/Jobs';
+import Browse from './components/ui/Browse';
 
 const appRouter = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const appRouter = createBrowserRouter([
   {
     path:'/jobs', 
     element:<Jobs/>
+  },
+  {
+    path:'/browse', 
+    element:<Browse/>
   }
 ])
 

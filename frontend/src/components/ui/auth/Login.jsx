@@ -10,9 +10,10 @@ import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "../../../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "@/redux/authSlice";
+import { setLoading, setUser } from "@/redux/authSlice";
 
 import { Loader2 } from 'lucide-react'
+
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -44,13 +45,21 @@ const Login = () => {
 
 
       if (res.data.success) {
+        dispatch(setUser(res.data.user));
         navigate("/");              // ✅ use it here
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
-    }
+    console.log("LOGIN ERROR:", error);
+    console.log("ERROR RESPONSE:", error?.response);
+
+    const message =
+      error?.response?.data?.message ||   // server error message (if exists)
+      error?.message ||                   // axios / JS error
+      "Something went wrong while logging in";
+
+    toast.error(message);
+  }
     finally {
       dispatch(setLoading(false));
     }
