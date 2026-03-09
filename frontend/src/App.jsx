@@ -8,6 +8,7 @@ import { RouterProvider } from "react-router-dom";
 import Jobs from './components/ui/Jobs';
 import Browse from './components/ui/Browse';
 import Profile from './components/Profile';
+import JobDescription from './components/JobDescription';
 
 const appRouter = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const appRouter = createBrowserRouter([
     path:'/jobs', 
     element:<Jobs/>
   },
+  {
+    path:'/description/:id', 
+    element:<JobDescription/>
+  },
+
   {
     path:'/browse', 
     element:<Browse/>
