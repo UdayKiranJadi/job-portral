@@ -8,7 +8,7 @@ import { Label } from './ui/ui/label'
 import AppliedJobTable from './ui/AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
-import store from '@/redux/store'
+
  const isResume = true;
 
 const Profile = () => {
@@ -64,7 +64,7 @@ const Profile = () => {
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                     <Label className="text-md font-bold">Resume</Label>
                     {
-                        isResume ? <a target='blank' className='text-blue-500 w-full hover:underline cursor-pointer'>Download Resume</a> : <span>Please Upload Your Resume</span>
+                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>Download Resume</a> : <span>Please Upload Your Resume</span>
                     }
 
 
