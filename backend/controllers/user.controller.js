@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
     console.log("BODY =>", req.body);
     try {
-        const { fullName, email, phoneNumber, password, role } = req.body;
+        const { fullName, email, phoneNumber, password, role } = req.body || {};
         if (!fullName || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
                 message: "something is missing",
@@ -103,7 +103,7 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try {
-        const { fullname, email, phoneNumber, bio, skills } = req.body;
+        const { fullName, email, phoneNumber, bio, skills } = req.body;
         const file = req.file;
         let skillsArray;
         if (skills) {
@@ -118,7 +118,7 @@ export const updateProfile = async (req, res) => {
                 success: false
             })
         }
-        if (fullname) user.fullname = fullname
+        if (fullName) user.fullName = fullName
         if (email) user.email = email
         if (phoneNumber) user.phoneNumber = phoneNumber
         if (bio) user.profile.bio = bio
@@ -130,7 +130,7 @@ export const updateProfile = async (req, res) => {
 
         user = {
             _id: user._id,
-            fullname: user.fullname,
+            fullName: user.fullName,
             email: user.email,
             phoneNumber: user.phoneNumber,
             role: user.role,
