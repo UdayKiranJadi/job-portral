@@ -72,19 +72,19 @@ const Navbar = () => {
             <Popover>
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="Img" />
+                  <AvatarImage src={user?.profile?.profilePhoto} alt="Img" />
                 </Avatar>
               </PopoverTrigger>
 
               <PopoverContent className="w-80">
                 <div className="flex gap-2 items-center space-y-1">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" alt="Img" />
+                    <AvatarImage src={user?.profile?.profilePhoto} alt="Img" />
                   </Avatar>
                   <div>
-                    <h4 className="font-medium">Uday</h4>
+                    <h4 className="font-medium">{user?.fullName}</h4>
                     <p className="text-sm text-muted-foreground">
-                      Lorem ipsum dolor sit amet.
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>

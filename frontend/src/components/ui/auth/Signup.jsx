@@ -23,50 +23,54 @@ const Signup = () => {
     phoneNumber: "",
     password: "",
     role: "",
+    file: ""
   });
 
-  const {loading} = useSelector(store=>store.auth);
+  const { loading } = useSelector(store => store.auth);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
+  const changeFileHandler = (e) => {
+        setInput({ ...input, file: e.target.files?.[0] });
+    }
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    const formData = new FormData();    //formdata object
+        formData.append("fullName", input.fullName);
+        formData.append("email", input.email);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("password", input.password);
+        formData.append("role", input.role);
+        if (input.file) {
+            formData.append("file", input.file);
+        }
 
     try {
       dispatch(setLoading(true));
-      
+
 
       const res = await axios.post(
-        `${USER_API_END_POINT}/register`,
+        `${USER_API_END_POINT}/register`, formData,
         {
-          fullName: input.fullName,
-          email: input.email,
-          phoneNumber: input.phoneNumber,
-          password: input.password,
-          role: input.role,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",   // 🔥 IMPORTANT
-          },
-          withCredentials: true,
+          headers: {"Content-Type":"multipart/form-data"},withCredentials: true,
         }
       );
 
       if (res.data.success) {
-        toast.success(res.data.message);
         navigate("/login");
+        toast.success(res.data.message);
+        
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
     }
-    finally{
+    finally {
       dispatch(setLoading(false));
     }
   };
@@ -151,6 +155,15 @@ const Signup = () => {
                   <Label>Recruiter</Label>
                 </div>
               </RadioGroup>
+              <div className='flex items-center gap-2'>
+                            <Label>Profile</Label>
+                            <Input
+                                accept="image/*"
+                                type="file"
+                                onChange={changeFileHandler}
+                                className="cursor-pointer"
+                            />
+                        </div>
             </div>
 
             {loading ? (
