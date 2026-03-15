@@ -79,7 +79,7 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, website, location } = req.body;
+    const { name, description, website, location } = req.body || {};
     const file = req.file;
 
     const updateData = {};
@@ -108,6 +108,7 @@ export const updateCompany = async (req, res) => {
     return res.status(200).json({
       message: "Company updated successfully",
       company,
+      success:true
     });
   } catch (err) {
     console.error(err);
