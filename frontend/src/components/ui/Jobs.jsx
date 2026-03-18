@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './shared/Navbar'
 import FilterCard from './FilterCard'
-import Job from './job';
+import Job from './Job';
 import { useSelector } from 'react-redux';
 
 
