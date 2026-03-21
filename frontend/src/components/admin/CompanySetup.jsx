@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../ui/shared/Navbar'
 import { Form, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../ui/ui/button'
@@ -8,47 +8,49 @@ import { Input } from '../ui/input'
 import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
 
 const CompanySetup = () => {
     const [input, setInput] = useState({
-        name:"",
+        name: "",
         description: "",
         website: "",
         location: "",
         file: null
     })
+    const {singleCompany} = useSelector(store => store.company);
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
-        setInput({...input, [e.target.name]: e.target.value});
+        setInput({ ...input, [e.target.name]: e.target.value });
     }
     const changeFileHandler = (e) => {
         const file = e.target.files?.[0];
-        setInput({...input,file});
+        setInput({ ...input, file });
     }
     const submitHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("name",input.name);
-        formData.append("description",input.description);
-        formData.append("website",input.website);
-        formData.append("location",input.location);
+        formData.append("name", input.name);
+        formData.append("description", input.description);
+        formData.append("website", input.website);
+        formData.append("location", input.location);
 
-        if(input.file){
+        if (input.file) {
             formData.append("file", input.file);
         }
         try {
             setLoading(true);
-            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`,formData, {
-                headers:{
-                    "Content-Type":"multipart/form-data"
+            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
 
                 },
-                withCredentials:true
+                withCredentials: true
             })
-            if(res.data.success){
+            if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/admin/companies")
 
@@ -56,18 +58,28 @@ const CompanySetup = () => {
         } catch (error) {
             toast.error(error.response.data.message)
             console.log(error);
-            
+
         }
-        finally{
+        finally {
             setLoading(false);
         }
+        useEffect(() => {
+            setInput({
+                name: singleCompany.name || "",
+                description: singleCompany.description || "",
+                website: singleCompany.website || "",
+                location: singleCompany.location || "",
+                file: singleCompany.file || null
+
+            }, [singleCompany])
+        })
 
 
 
-        
-        
 
-        
+
+
+
 
 
     }
@@ -75,7 +87,7 @@ const CompanySetup = () => {
         <div>
             <Navbar />
             <div className='max-w-xl mx-auto my-10 mt-20'>
-                <form onSubmit = {submitHandler}>
+                <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
                         <Button onClick={() => navigate("/admin/companies")} variant='outline' className="flex items-center gap-2 text-black-500 font-semibold">
                             <ArrowLeft />
@@ -94,7 +106,7 @@ const CompanySetup = () => {
                                 onChange={changeEventHandler}
                             />
                         </div>
-                          <div>
+                        <div>
                             <Label>Description</Label>
                             <Input
                                 type="text"
@@ -103,7 +115,7 @@ const CompanySetup = () => {
                                 onChange={changeEventHandler}
                             />
                         </div>
-                          <div>
+                        <div>
                             <Label>Website</Label>
                             <Input
                                 type="text"
@@ -112,7 +124,7 @@ const CompanySetup = () => {
                                 onChange={changeEventHandler}
                             />
                         </div>
-                          <div>
+                        <div>
                             <Label>Location</Label>
                             <Input
                                 type="text"
@@ -121,7 +133,7 @@ const CompanySetup = () => {
                                 onChange={changeEventHandler}
                             />
                         </div>
-                          <div>
+                        <div>
                             <Label>Logo</Label>
                             <Input
                                 type="file"
