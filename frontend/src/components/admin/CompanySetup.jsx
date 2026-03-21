@@ -9,8 +9,12 @@ import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux'
+import useGetAllCompanies from '@/hooks/useGetAllCompanies'
+import useGetCompanyByid from '@/hooks/useGetCompanyByid'
 
 const CompanySetup = () => {
+    const params = useParams();
+    useGetCompanyByid(params.id);
     const [input, setInput] = useState({
         name: "",
         description: "",
@@ -20,7 +24,7 @@ const CompanySetup = () => {
     })
     const {singleCompany} = useSelector(store => store.company);
     const [loading, setLoading] = useState(false);
-    const params = useParams();
+    
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
