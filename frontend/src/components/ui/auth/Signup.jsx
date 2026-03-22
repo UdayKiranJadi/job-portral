@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "../ui/label";
 import { RadioGroup } from "../ui/radio-group";
@@ -26,7 +26,7 @@ const Signup = () => {
     file: ""
   });
 
-  const { loading } = useSelector(store => store.auth);
+  const { loading,user } = useSelector(store => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -74,6 +74,13 @@ const Signup = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+      if(user){
+        navigate("/")
+      }
+  
+    },[])
 
   return (
     <div className="min-h-screen bg-white">

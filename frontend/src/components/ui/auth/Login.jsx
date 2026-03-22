@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "../ui/label";
 import { RadioGroup } from "../ui/radio-group";
@@ -21,7 +21,7 @@ const Login = () => {
     password: "",
     role: "",
   });
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
 
 
   const navigate = useNavigate(); // ✅ hook inside component
@@ -64,6 +64,13 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if(user){
+      navigate("/")
+    }
+
+  },[])
 
   return (
     <div className="min-h-screen bg-white">
