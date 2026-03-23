@@ -11,6 +11,9 @@ import applicationRoute from "./routes/application.route.js";
 dotenv.config({});
 const app = express();
 
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Backend working" });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
