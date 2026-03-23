@@ -86,13 +86,14 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        return res
+      return res
   .status(200)
   .cookie("token", token, {
     maxAge: 1 * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "none",
     secure: true,
+    path: "/",
   })
   .json({
     message: `welcome back ${user.fullName}`,
@@ -115,6 +116,7 @@ export const logout = async (req, res) => {
     httpOnly: true,
     sameSite: "none",
     secure: true,
+    path: "/",
   })
   .json({
     message: "Logged Out succesfully",
