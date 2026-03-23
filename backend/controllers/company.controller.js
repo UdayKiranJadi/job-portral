@@ -49,15 +49,6 @@ export const getCompany = async (req, res) => {
 
     const companies = await Company.find({ userId: req.id });
 
-    console.log(
-      "MATCHED COMPANIES:",
-      companies.map((c) => ({
-        id: c._id.toString(),
-        name: c.name,
-        userId: c.userId?.toString(),
-      }))
-    );
-
     return res.status(200).json({
       companies,
       success: true,
@@ -66,6 +57,7 @@ export const getCompany = async (req, res) => {
     console.log("GET COMPANY ERROR:", error);
     return res.status(500).json({
       message: "Failed to fetch companies",
+      error: error.message,
       success: false,
     });
   }
