@@ -13,18 +13,13 @@ const CompaniesTable = () => {
 
 
     useEffect(() => {
-        const filteredCompany = companies.length >= 0 && companies.filter((company) => {
-            if(!searchCompanyByText){
-                return true
+  const filteredCompany = companies.filter((company) => {
+    if (!searchCompanyByText) return true;
+    return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+  });
 
-            };
-            return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
-
-
-        })
-        setFilterCompany(filteredCompany)
-
-    },[companies, searchCompanyByText]) 
+  setFilterCompany(filteredCompany);
+}, [companies, searchCompanyByText]);
 
 
 
@@ -44,45 +39,34 @@ const CompaniesTable = () => {
                 </TableHeader>
 
                 <TableBody>
-                    {
-                        filterCompany?.map((company) => (
-                            <tr>
-                                <TableCell>
-                                        <Avatar>
-                                            <AvatarImage src={company.logo} />
-
-                                        </Avatar>
-                                    </TableCell>
-                                    <TableCell>{company.name}</TableCell>
-                                    <TableCell>
-                                        {company.createdAt.split("T")[0]}
-                                    </TableCell>
-                                    <TableCell className='text-right cursor-pointer'>
-                                        <Popover>
-                                            <PopoverTrigger>
-                                                <MoreHorizontal />
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-32">
-                                                <div onClick={() => navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
-                                                    <Edit2 className='w-4' />
-                                                    <span>Edit</span>
-                                                </div>
-
-                                            </PopoverContent>
-                                        </Popover>
-                                    </TableCell>
-                            </tr>
-                            
-
-                                    
-
-                                
-
-                            
-                        ))
-                    }
-
-                </TableBody>
+  {filterCompany?.map((company) => (
+    <TableRow key={company._id}>
+      <TableCell>
+        <Avatar>
+          <AvatarImage src={company.logo} />
+        </Avatar>
+      </TableCell>
+      <TableCell>{company.name}</TableCell>
+      <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+      <TableCell className='text-right cursor-pointer'>
+        <Popover>
+          <PopoverTrigger>
+            <MoreHorizontal />
+          </PopoverTrigger>
+          <PopoverContent className="w-32">
+            <div
+              onClick={() => navigate(`/admin/companies/${company._id}`)}
+              className='flex items-center gap-2 w-fit cursor-pointer'
+            >
+              <Edit2 className='w-4' />
+              <span>Edit</span>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
             </Table>
         </div>
     )

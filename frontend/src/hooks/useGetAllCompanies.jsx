@@ -1,8 +1,8 @@
-import { setCompanies } from "@/redux/companySlice";
-import { COMPANY_API_END_POINT } from "@/utils/constant";
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { setCompanies } from '@/redux/companySlice';
+import { COMPANY_API_END_POINT } from '@/utils/constant';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 const useGetAllCompanies = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,8 @@ const useGetAllCompanies = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log("GET COMPANIES RESPONSE:", res.data);
 
         if (res.data.success) {
           dispatch(setCompanies(res.data.companies));
