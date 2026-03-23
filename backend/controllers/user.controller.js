@@ -91,8 +91,8 @@ export const login = async (req, res) => {
   .cookie("token", token, {
     maxAge: 1 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "none",
     secure: true,
+    sameSite: "none",
     path: "/",
   })
   .json({
@@ -114,8 +114,8 @@ export const logout = async (req, res) => {
   .cookie("token", "", {
     maxAge: 0,
     httpOnly: true,
-    sameSite: "none",
     secure: true,
+    sameSite: "none",
     path: "/",
   })
   .json({

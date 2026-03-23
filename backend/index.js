@@ -12,17 +12,17 @@ dotenv.config();
 
 const app = express();
 
+app.set("trust proxy", 1);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.get("/api/debug-cookie", (req, res) => {
   res.json({
     cookies: req.cookies,
     token: req.cookies?.token || null,
   });
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.set("trust proxy", 1);
 
 const corsOptions = {
   origin: "https://job-portral.vercel.app",
