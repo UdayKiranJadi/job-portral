@@ -6,14 +6,11 @@ import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../input";
 import axios from "axios";
-
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "../../../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
-
-import { Loader2 } from 'lucide-react'
-
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -21,10 +18,9 @@ const Login = () => {
     password: "",
     role: "",
   });
-  const { loading, user } = useSelector(store => store.auth);
 
-
-  const navigate = useNavigate(); // ✅ hook inside component
+  const { loading, user } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
@@ -36,46 +32,43 @@ const Login = () => {
 
     try {
       dispatch(setLoading(true));
+
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
 
-
       if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
         dispatch(setUser(res.data.user));
-        navigate("/");              // ✅ use it here
         toast.success(res.data.message);
+        navigate("/");
       }
     } catch (error) {
-    console.log("LOGIN ERROR:", error);
-    console.log("ERROR RESPONSE:", error?.response);
+      console.log("LOGIN ERROR:", error);
+      console.log("ERROR RESPONSE:", error?.response);
 
-    const message =
-      error?.response?.data?.message ||   // server error message (if exists)
-      error?.message ||                   // axios / JS error
-      "Something went wrong while logging in";
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong while logging in";
 
-    toast.error(message);
-  }
-    finally {
+      toast.error(message);
+    } finally {
       dispatch(setLoading(false));
     }
   };
 
   useEffect(() => {
-    if(user){
-      navigate("/")
+    if (user) {
+      navigate("/");
     }
-
-  },[])
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      {/* 👇 content under the fixed navbar */}
       <main className="pt-16">
         <div className="flex items-center justify-center max-w-7xl mx-auto">
           <form
