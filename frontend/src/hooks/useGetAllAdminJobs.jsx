@@ -1,28 +1,37 @@
-import { setAllAdminJobs } from '@/redux/jobSlice'
-import { JOB_API_END_POINT } from '@/utils/constant'
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { setAllAdminJobs } from '@/redux/jobSlice';
+import { JOB_API_END_POINT } from '@/utils/constant';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-const fetchAllAdminJobs = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        const fetchAllAdminJobs = async () => {
-            try {
-                const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`, {withCredentials:true});
-                if(res.data.success){
-                    dispatch(setAllAdminJobs(res.data.jobs));
+const useGetAllAdminJobs = () => {
+  const dispatch = useDispatch();
 
-                }
+  useEffect(() => {
+    const fetchAllAdminJobs = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        console.log('ADMIN JOBS TOKEN:', token);
 
+        const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-            } catch (error) {
-                console.log(error);
-            }
+        console.log('ADMIN JOBS RESPONSE:', res.data);
+
+        if (res.data.success) {
+          dispatch(setAllAdminJobs(res.data.jobs));
         }
-        fetchAllAdminJobs();
-    },[])
-  
-}
+      } catch (error) {
+        console.log('GET ADMIN JOBS ERROR:', error);
+        console.log('GET ADMIN JOBS ERROR RESPONSE:', error?.response);
+      }
+    };
 
-export default fetchAllAdminJobs
+    fetchAllAdminJobs();
+  }, [dispatch]);
+};
+
+export default useGetAllAdminJobs;
