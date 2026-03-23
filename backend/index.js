@@ -8,30 +8,34 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 
-dotenv.config({});
+dotenv.config();
+
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: "https://job-portral.vercel.app",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+connectDB();
+
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
 
 app.get("/api/test", (req, res) => {
   res.json({ message: "Backend working" });
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-const corsOptions = {
-    origin: 'https://job-portral.vercel.app',
-    credentials: true
-}
-app.use(cors(corsOptions));
-
-
-const port = process.env.PORT || 3000;
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
-app.listen(port, () => {
-    connectDB();
-    console.log(`Server Running at port ${port}`);
-});
+export default app;
