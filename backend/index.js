@@ -12,6 +12,13 @@ dotenv.config();
 
 const app = express();
 
+app.get("/api/debug-cookie", (req, res) => {
+  res.json({
+    cookies: req.cookies,
+    token: req.cookies?.token || null,
+  });
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
