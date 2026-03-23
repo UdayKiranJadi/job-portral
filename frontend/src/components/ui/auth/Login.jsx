@@ -91,7 +91,7 @@ const Login = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="Uday@gmail.com"
+                placeholder=""
               />
             </div>
 
@@ -102,7 +102,7 @@ const Login = () => {
                 value={input.password}
                 name="password"
                 onChange={changeEventHandler}
-                placeholder="Uday"
+                placeholder=""
               />
             </div>
 

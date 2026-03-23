@@ -100,7 +100,7 @@ const Signup = () => {
                 value={input.fullName}
                 name="fullName"
                 onChange={changeEventHandler}
-                placeholder="Uday"
+                placeholder=""
               />
             </div>
 
@@ -111,7 +111,7 @@ const Signup = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="uday@gmail.com"
+                placeholder=""
               />
             </div>
 
@@ -122,7 +122,7 @@ const Signup = () => {
                 value={input.phoneNumber}
                 name="phoneNumber"
                 onChange={changeEventHandler}
-                placeholder="805..."
+                placeholder=""
               />
             </div>
 
@@ -133,7 +133,7 @@ const Signup = () => {
                 value={input.password}
                 name="password"
                 onChange={changeEventHandler}
-                placeholder="password"
+                placeholder=""
               />
             </div>
 

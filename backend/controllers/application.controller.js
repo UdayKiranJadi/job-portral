@@ -61,7 +61,7 @@ export const getAppliedJobs = async(req, res) => {
                 success:false
             })
         }
-        return res.status(400).json({
+        return res.status(200).json({
             application,
             success:true
         })
