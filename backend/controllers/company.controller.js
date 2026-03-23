@@ -45,8 +45,6 @@ export const registerCompany = async (req, res) => {
 
 export const getCompany = async (req, res) => {
   try {
-    console.log("GET COMPANY req.id:", req.id);
-
     const companies = await Company.find({ userId: req.id });
 
     return res.status(200).json({
