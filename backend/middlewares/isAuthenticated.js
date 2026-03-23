@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const isAuthenticated = async (req, res, next) => {
   try {
     console.log("AUTH HEADER:", req.headers.authorization);
-    console.log("SECRET KEY EXISTS:", !!process.env.SECRET_KEY);
+    console.log("SECRET EXISTS:", !!process.env.SECRET_KEY);
 
     const authHeader = req.headers.authorization;
 
@@ -15,24 +15,10 @@ const isAuthenticated = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    console.log("TOKEN FROM HEADER:", token);
-
-    if (!token) {
-      return res.status(401).json({
-        message: "User Not authenticated",
-        success: false,
-      });
-    }
+    console.log("TOKEN:", token);
 
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     console.log("DECODE:", decode);
-
-    if (!decode) {
-      return res.status(401).json({
-        message: "Invalid token",
-        success: false,
-      });
-    }
 
     req.id = decode.userId;
     next();

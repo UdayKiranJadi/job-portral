@@ -50,32 +50,35 @@ const PostJob = () => {
   };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+    console.log("POST JOB TOKEN:", token);
 
-      const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (res.data.success) {
-        toast.success(res.data.message);
-        navigate('/admin/jobs');
-      }
-    } catch (error) {
-      console.log('POST JOB ERROR:', error);
-      console.log('POST JOB ERROR RESPONSE:', error?.response);
-      toast.error(error?.response?.data?.message || 'Failed to post job');
-    } finally {
-      setLoading(false);
+    console.log("POST JOB RESPONSE:", res.data);
+
+    if (res.data.success) {
+      toast.success(res.data.message);
+      navigate("/admin/jobs");
     }
-  };
+  } catch (error) {
+    console.log("POST JOB ERROR:", error);
+    console.log("POST JOB ERROR RESPONSE:", error?.response);
+    toast.error(error?.response?.data?.message || "Failed to post job");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div>
